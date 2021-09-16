@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="bsecdevnet.onmicrosoft.com" PolicyId="B2C_1A_signup_signin" PublicPolicyUri="http://bsecdevnet.onmicrosoft.com/B2C_1A_signup_signin">
+  xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="bsecdevnet.onmicrosoft.com" PolicyId="B2C_1A_signup_signin" PublicPolicyUri="http://bsecdevnet.onmicrosoft.com/B2C_1A_signup_signin" 
+  DeploymentMode="Development"
+  UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
     <TenantId>bsecdevnet.onmicrosoft.com</TenantId>
@@ -9,7 +11,13 @@
   </BasePolicy>
 
   <RelyingParty>
-    <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
+    <DefaultUserJourney ReferenceId="BlokSecSignUpOrSignIn" />
+    <UserJourneyBehaviors>
+      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="f0bbea9c-4699-49bb-a9c0-b3af4a0c0064" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
+      <!-- <SingleSignOn Scope="Tenant" KeepAliveInDays="3" />
+      <SessionExpiryType>Absolute</SessionExpiryType>
+      <SessionExpiryInSeconds>900</SessionExpiryInSeconds> -->
+    </UserJourneyBehaviors>    
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
@@ -18,8 +26,9 @@
         <OutputClaim ClaimTypeReferenceId="givenName" />
         <OutputClaim ClaimTypeReferenceId="surname" />
         <OutputClaim ClaimTypeReferenceId="email" />
+        <OutputClaim ClaimTypeReferenceId="bloksecUsername" />
         <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
-        <OutputClaim ClaimTypeReferenceId="identityProvider" />
+        <!-- <OutputClaim ClaimTypeReferenceId="identityProvider" /> -->
         <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
